@@ -34,6 +34,7 @@ export class CharacterControls {
         this.mixer = mixer
         this.animationsMap = animationsMap
         this.currentAction = currentAction
+        console.log(animationsMap);
         this.animationsMap.forEach((value, key) => {
             if (key == currentAction) {
                 value.play()

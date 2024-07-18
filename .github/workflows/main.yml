@@ -1,0 +1,27 @@
+name: Publish # Название workflow
+on: 
+  release # Условие запуска (по релизу)
+
+jobs: # Задания
+  test: # Тестирование, тут всё просто
+    runs-on: ubuntu-latest 
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - run: npm run codestyle
+
+  publish: # Опубликовать 
+    needs: test # Запускать только если тест прошёл успешно
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 18 # Запускать на 12 ноде
+          registry-url: https://registry.npmjs.org/
+      - run: npm run build # Выполняем билд
